@@ -123,7 +123,14 @@ const COLORS = [
   '#f72585', '#80ed99', '#ff9f1c', '#8338ec', '#3a86ff'
 ];
 
-let options = [];
+const DEFAULT_NAMES = [
+  'Débora', 'Jonas', 'Lucca', 'Mayza', 'Marcus',
+  'Marcia', 'Gil', 'Maiara', 'Rennan', 'Yolanda',
+  'Pedro', 'Fabíola', 'Luana', 'Hugo', 'Marcio',
+  'Ludmila', 'Junior', 'Leia', 'Wayner', 'Tais'
+];
+
+let options = [...DEFAULT_NAMES];
 let roletaHistory = [];
 let currentRotation = 0;
 let spinning = false;
@@ -186,7 +193,7 @@ addBulkBtn.addEventListener('click', () => {
 });
 
 resetRoletaBtn.addEventListener('click', () => {
-  options = [];
+  options = [...DEFAULT_NAMES];
   roletaHistory = [];
   currentRotation = 0;
   roletaHistoryEl.innerHTML = '';
