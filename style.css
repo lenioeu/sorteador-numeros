@@ -247,6 +247,11 @@ h3 {
   word-break: break-word;
 }
 
+.result-value.spinning {
+  color: var(--sage);
+  opacity: 0.8;
+}
+
 /* History */
 .history-box { margin-top: 20px; }
 .history-header {

@@ -77,7 +77,30 @@ function renderClassicHistory() {
   });
 }
 
+let classicSpinning = false;
+
+function spinClassicSuspense(pool, chosen, onDone) {
+  let delay = 40;
+
+  function tick() {
+    const displayVal = pool[Math.floor(Math.random() * pool.length)];
+    classicResult.innerHTML = `<span class="result-value spinning">${displayVal}</span>`;
+    delay *= 1.12;
+    if (delay < 320) {
+      setTimeout(tick, delay);
+    } else {
+      setTimeout(() => {
+        classicResult.innerHTML = `<span class="result-value">${chosen}</span>`;
+        onDone();
+      }, 350);
+    }
+  }
+  tick();
+}
+
 drawNumberBtn.addEventListener('click', () => {
+  if (classicSpinning) return;
+
   const allowRepeat = allowRepeatCheckbox.checked;
   let pool = getAllNumbersFromIntervals();
 
@@ -95,11 +118,17 @@ drawNumberBtn.addEventListener('click', () => {
   }
 
   const chosen = pool[Math.floor(Math.random() * pool.length)];
-  if (!allowRepeat) drawnNumbers.add(chosen);
-  classicHistory.push(chosen);
 
-  classicResult.innerHTML = `<span class="result-value">${chosen}</span>`;
-  renderClassicHistory();
+  classicSpinning = true;
+  drawNumberBtn.disabled = true;
+
+  spinClassicSuspense(pool, chosen, () => {
+    if (!allowRepeat) drawnNumbers.add(chosen);
+    classicHistory.push(chosen);
+    renderClassicHistory();
+    classicSpinning = false;
+    drawNumberBtn.disabled = false;
+  });
 });
 
 resetClassicBtn.addEventListener('click', () => {
