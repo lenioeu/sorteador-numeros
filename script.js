@@ -145,7 +145,7 @@ function drawWheel() {
 
   const n = options.length;
   const arc = (Math.PI * 2) / n;
-  const fontSize = n > 14 ? 11 : n > 8 ? 13 : 16;
+  const fontSize = n > 14 ? 15 : n > 8 ? 18 : 22;
   const maxChars = n > 14 ? 10 : n > 8 ? 14 : 20;
 
   for (let i = 0; i < n; i++) {
