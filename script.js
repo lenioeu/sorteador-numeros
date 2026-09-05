@@ -112,10 +112,6 @@ resetClassicBtn.addEventListener('click', () => {
 // ==================================================
 // MODO ROLETA
 // ==================================================
-const optionInput = document.getElementById('option-input');
-const addOptionBtn = document.getElementById('add-option');
-const bulkInput = document.getElementById('bulk-input');
-const addBulkBtn = document.getElementById('add-bulk');
 const optionsListEl = document.getElementById('options-list');
 const eliminateToggle = document.getElementById('eliminate-toggle');
 const spinBtn = document.getElementById('spin-btn');
@@ -145,7 +141,7 @@ let spinning = false;
 function renderOptionsList() {
   optionsListEl.innerHTML = '';
   if (options.length === 0) {
-    optionsListEl.innerHTML = `<li class="empty-msg" style="justify-content:center;">Adicione nomes para montar a roleta</li>`;
+    optionsListEl.innerHTML = `<li class="empty-msg" style="justify-content:center;">Todos já foram sorteados. Clique em "Restaurar lista original".</li>`;
   }
   options.forEach((name, i) => {
     const li = document.createElement('li');
@@ -169,35 +165,6 @@ function escapeHtml(str) {
   div.textContent = str;
   return div.innerHTML;
 }
-
-function addOption(name) {
-  name = name.trim();
-  if (!name) return;
-  options.push(name);
-}
-
-addOptionBtn.addEventListener('click', () => {
-  addOption(optionInput.value);
-  optionInput.value = '';
-  renderOptionsList();
-  drawWheel();
-});
-
-optionInput.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') {
-    addOption(optionInput.value);
-    optionInput.value = '';
-    renderOptionsList();
-    drawWheel();
-  }
-});
-
-addBulkBtn.addEventListener('click', () => {
-  bulkInput.value.split('\n').forEach(line => addOption(line));
-  bulkInput.value = '';
-  renderOptionsList();
-  drawWheel();
-});
 
 resetRoletaBtn.addEventListener('click', () => {
   options = [...DEFAULT_NAMES];
