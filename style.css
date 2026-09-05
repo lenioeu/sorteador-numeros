@@ -133,43 +133,6 @@ h3 {
   color: var(--text-dim);
 }
 
-/* Intervals */
-.intervals-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 12px;
-}
-
-.interval-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.interval-row input[type="number"] {
-  width: 90px;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: var(--cream-soft);
-  color: var(--text);
-  font-family: inherit;
-  font-size: 1.1rem;
-}
-
-.interval-row span.sep { color: var(--text-dim); }
-
-.remove-x {
-  margin-left: auto;
-  background: transparent;
-  border: none;
-  color: var(--maroon);
-  font-size: 1.1rem;
-  cursor: pointer;
-  padding: 4px 8px;
-}
-
 /* Buttons */
 .btn {
   cursor: pointer;
@@ -214,17 +177,6 @@ h3 {
   margin: 18px 0;
 }
 
-.toggle-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 16px 0;
-  color: var(--text-dim);
-  font-size: 1rem;
-  cursor: pointer;
-}
-.toggle-row input { width: 18px; height: 18px; accent-color: var(--green-dark); cursor: pointer; }
-
 /* Result */
 .result-box {
   text-align: center;
@@ -250,33 +202,6 @@ h3 {
 .result-value.spinning {
   color: var(--sage);
   opacity: 0.8;
-}
-
-/* History */
-.history-box { margin-top: 20px; }
-.history-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-.history-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  max-height: 160px;
-  overflow-y: auto;
-}
-.history-list li {
-  background: var(--cream-soft);
-  border: 1px solid var(--border);
-  color: var(--text);
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 1rem;
 }
 
 /* Roleta layout */

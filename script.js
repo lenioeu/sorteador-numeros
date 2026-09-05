@@ -15,38 +15,8 @@ tabButtons.forEach(btn => {
 // ==================================================
 // MODO CLÁSSICO
 // ==================================================
-const intervalsList = document.getElementById('intervals-list');
-const addIntervalBtn = document.getElementById('add-interval');
-const allowRepeatCheckbox = document.getElementById('allow-repeat');
 const drawNumberBtn = document.getElementById('draw-number');
 const classicResult = document.getElementById('classic-result');
-const classicHistoryEl = document.getElementById('classic-history');
-const resetClassicBtn = document.getElementById('reset-classic');
-
-let intervalRowId = 0;
-let drawnNumbers = new Set();
-let classicHistory = [];
-
-function addIntervalRow(min = 1, max = 100) {
-  const id = intervalRowId++;
-  const row = document.createElement('div');
-  row.className = 'interval-row';
-  row.dataset.id = id;
-  row.innerHTML = `
-    <input type="number" class="min-input" value="${min}">
-    <span class="sep">até</span>
-    <input type="number" class="max-input" value="${max}">
-    <button class="remove-x" title="Remover intervalo">✕</button>
-  `;
-  row.querySelector('.remove-x').addEventListener('click', () => {
-    if (intervalsList.children.length > 1) {
-      row.remove();
-    }
-  });
-  intervalsList.appendChild(row);
-}
-
-addIntervalBtn.addEventListener('click', () => addIntervalRow());
 
 const DEFAULT_INTERVALS = [
   [108, 177],
@@ -54,29 +24,16 @@ const DEFAULT_INTERVALS = [
   [280, 299],
   [220, 259]
 ];
-DEFAULT_INTERVALS.forEach(([min, max]) => addIntervalRow(min, max));
 
-function getAllNumbersFromIntervals() {
+const ALL_NUMBERS = (() => {
   const numbers = new Set();
-  intervalsList.querySelectorAll('.interval-row').forEach(row => {
-    let min = parseInt(row.querySelector('.min-input').value, 10);
-    let max = parseInt(row.querySelector('.max-input').value, 10);
-    if (isNaN(min) || isNaN(max)) return;
-    if (min > max) [min, max] = [max, min];
+  DEFAULT_INTERVALS.forEach(([min, max]) => {
     for (let n = min; n <= max; n++) numbers.add(n);
   });
   return Array.from(numbers);
-}
+})();
 
-function renderClassicHistory() {
-  classicHistoryEl.innerHTML = '';
-  classicHistory.slice().reverse().forEach(n => {
-    const li = document.createElement('li');
-    li.textContent = n;
-    classicHistoryEl.appendChild(li);
-  });
-}
-
+let drawnNumbers = new Set();
 let classicSpinning = false;
 
 function spinClassicSuspense(pool, chosen, onDone) {
@@ -101,20 +58,10 @@ function spinClassicSuspense(pool, chosen, onDone) {
 drawNumberBtn.addEventListener('click', () => {
   if (classicSpinning) return;
 
-  const allowRepeat = allowRepeatCheckbox.checked;
-  let pool = getAllNumbersFromIntervals();
-
+  let pool = ALL_NUMBERS.filter(n => !drawnNumbers.has(n));
   if (pool.length === 0) {
-    classicResult.innerHTML = `<span class="result-placeholder">Defina ao menos um intervalo válido.</span>`;
+    classicResult.innerHTML = `<span class="result-placeholder">Todos os números já foram sorteados.</span>`;
     return;
-  }
-
-  if (!allowRepeat) {
-    pool = pool.filter(n => !drawnNumbers.has(n));
-    if (pool.length === 0) {
-      classicResult.innerHTML = `<span class="result-placeholder">Todos os números já foram sorteados. Clique em "Limpar" para reiniciar.</span>`;
-      return;
-    }
   }
 
   const chosen = pool[Math.floor(Math.random() * pool.length)];
@@ -123,19 +70,10 @@ drawNumberBtn.addEventListener('click', () => {
   drawNumberBtn.disabled = true;
 
   spinClassicSuspense(pool, chosen, () => {
-    if (!allowRepeat) drawnNumbers.add(chosen);
-    classicHistory.push(chosen);
-    renderClassicHistory();
+    drawnNumbers.add(chosen);
     classicSpinning = false;
     drawNumberBtn.disabled = false;
   });
-});
-
-resetClassicBtn.addEventListener('click', () => {
-  drawnNumbers.clear();
-  classicHistory = [];
-  renderClassicHistory();
-  classicResult.innerHTML = `<span class="result-placeholder">Aguardando sorteio…</span>`;
 });
 
 // ==================================================
