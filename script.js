@@ -119,8 +119,8 @@ const canvas = document.getElementById('wheel-canvas');
 const ctx = canvas.getContext('2d');
 
 const COLORS = [
-  '#6c5ce7', '#00d2a0', '#ffb703', '#ff6b6b', '#4cc9f0',
-  '#f72585', '#80ed99', '#ff9f1c', '#8338ec', '#3a86ff'
+  '#2E3D19', '#921203', '#6F785E', '#B08D57',
+  '#5F6358', '#A85C4D', '#7C8B99', '#8F9779'
 ];
 
 const DEFAULT_NAMES = [
@@ -211,7 +211,7 @@ function drawWheel() {
   if (options.length === 0) {
     ctx.beginPath();
     ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-    ctx.fillStyle = '#1c2030';
+    ctx.fillStyle = '#FBF8F2';
     ctx.fill();
     return;
   }
@@ -231,7 +231,7 @@ function drawWheel() {
     ctx.closePath();
     ctx.fillStyle = COLORS[i % COLORS.length];
     ctx.fill();
-    ctx.strokeStyle = '#1c2030';
+    ctx.strokeStyle = '#FAF5EC';
     ctx.lineWidth = 2;
     ctx.stroke();
 
@@ -244,8 +244,8 @@ function drawWheel() {
     ctx.translate(cx, cy);
     ctx.rotate(midAngle);
     ctx.textBaseline = 'middle';
-    ctx.fillStyle = '#ffffff';
-    ctx.font = `bold ${fontSize}px Segoe UI, sans-serif`;
+    ctx.fillStyle = '#FBF8F2';
+    ctx.font = `600 ${fontSize + 1}px Cormorant Garamond, Georgia, serif`;
     let label = options[i];
     if (label.length > maxChars) label = label.slice(0, maxChars - 1) + '…';
     if (upsideDown) {
@@ -262,9 +262,9 @@ function drawWheel() {
   // hub
   ctx.beginPath();
   ctx.arc(cx, cy, 22, 0, Math.PI * 2);
-  ctx.fillStyle = '#1c2030';
+  ctx.fillStyle = '#FBF8F2';
   ctx.fill();
-  ctx.strokeStyle = '#383e54';
+  ctx.strokeStyle = '#6F785E';
   ctx.lineWidth = 3;
   ctx.stroke();
 }
@@ -334,3 +334,6 @@ spinBtn.addEventListener('click', spin);
 
 renderOptionsList();
 drawWheel();
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(() => drawWheel());
+}
