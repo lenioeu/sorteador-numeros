@@ -141,12 +141,8 @@ resetClassicBtn.addEventListener('click', () => {
 // ==================================================
 // MODO ROLETA
 // ==================================================
-const optionsListEl = document.getElementById('options-list');
-const eliminateToggle = document.getElementById('eliminate-toggle');
 const spinBtn = document.getElementById('spin-btn');
 const roletaResult = document.getElementById('roleta-result');
-const roletaHistoryEl = document.getElementById('roleta-history');
-const resetRoletaBtn = document.getElementById('reset-roleta');
 const canvas = document.getElementById('wheel-canvas');
 const ctx = canvas.getContext('2d');
 
@@ -155,55 +151,21 @@ const COLORS = [
   '#5F6358', '#A85C4D', '#7C8B99', '#8F9779'
 ];
 
-const DEFAULT_NAMES = [
+const options = [
   'Débora', 'Jonas', 'Lucca', 'Mayza', 'Marcus',
   'Marcia', 'Gil', 'Maiara', 'Rennan', 'Yolanda',
   'Pedro', 'Fabíola', 'Luana', 'Hugo', 'Marcio',
   'Ludmila', 'Junior', 'Leia', 'Wayner', 'Tais'
 ];
 
-let options = [...DEFAULT_NAMES];
-let roletaHistory = [];
 let currentRotation = 0;
 let spinning = false;
-
-function renderOptionsList() {
-  optionsListEl.innerHTML = '';
-  if (options.length === 0) {
-    optionsListEl.innerHTML = `<li class="empty-msg" style="justify-content:center;">Todos já foram sorteados. Clique em "Restaurar lista original".</li>`;
-  }
-  options.forEach((name, i) => {
-    const li = document.createElement('li');
-    li.innerHTML = `
-      <span class="swatch" style="background:${COLORS[i % COLORS.length]}"></span>
-      <span class="name">${escapeHtml(name)}</span>
-      <button class="remove-x" title="Remover">✕</button>
-    `;
-    li.querySelector('.remove-x').addEventListener('click', () => {
-      options.splice(i, 1);
-      renderOptionsList();
-      drawWheel();
-    });
-    optionsListEl.appendChild(li);
-  });
-  spinBtn.disabled = options.length < 2;
-}
 
 function escapeHtml(str) {
   const div = document.createElement('div');
   div.textContent = str;
   return div.innerHTML;
 }
-
-resetRoletaBtn.addEventListener('click', () => {
-  options = [...DEFAULT_NAMES];
-  roletaHistory = [];
-  currentRotation = 0;
-  roletaHistoryEl.innerHTML = '';
-  roletaResult.innerHTML = `<span class="result-placeholder">Aguardando sorteio…</span>`;
-  renderOptionsList();
-  drawWheel();
-});
 
 function drawWheel() {
   const w = canvas.width, h = canvas.height;
@@ -318,24 +280,11 @@ function finishSpin(winnerIndex) {
   spinning = false;
   const winner = options[winnerIndex];
   roletaResult.innerHTML = `<span class="result-value">${escapeHtml(winner)}</span>`;
-  roletaHistory.push(winner);
-  const li = document.createElement('li');
-  li.textContent = winner;
-  roletaHistoryEl.prepend(li);
-
-  if (eliminateToggle.checked) {
-    options.splice(winnerIndex, 1);
-    currentRotation = 0;
-    renderOptionsList();
-    drawWheel();
-  }
-
-  spinBtn.disabled = options.length < 2;
+  spinBtn.disabled = false;
 }
 
 spinBtn.addEventListener('click', spin);
 
-renderOptionsList();
 drawWheel();
 if (document.fonts && document.fonts.ready) {
   document.fonts.ready.then(() => drawWheel());

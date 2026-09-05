@@ -66,34 +66,14 @@
       <!-- ROLETA -->
       <section id="roleta" class="tab-panel">
         <div class="card roleta-card">
-          <div class="roleta-layout">
-            <div class="wheel-area">
-              <div class="wheel-wrapper">
-                <div class="pointer"></div>
-                <canvas id="wheel-canvas" width="420" height="420"></canvas>
-              </div>
-              <button id="spin-btn" class="btn btn-primary btn-big">Girar roleta</button>
-              <div class="result-box" id="roleta-result">
-                <span class="result-placeholder">Aguardando sorteio…</span>
-              </div>
+          <div class="wheel-area">
+            <div class="wheel-wrapper">
+              <div class="pointer"></div>
+              <canvas id="wheel-canvas" width="420" height="420"></canvas>
             </div>
-
-            <div class="options-area">
-              <h2>Padrinhos</h2>
-              <ul id="options-list" class="options-list"></ul>
-
-              <label class="toggle-row">
-                <input type="checkbox" id="eliminate-toggle">
-                <span>Remover da roda após sortear (eliminatória)</span>
-              </label>
-
-              <div class="history-box">
-                <div class="history-header">
-                  <h3>Histórico</h3>
-                  <button id="reset-roleta" class="btn btn-ghost">Restaurar lista original</button>
-                </div>
-                <ul id="roleta-history" class="history-list"></ul>
-              </div>
+            <button id="spin-btn" class="btn btn-primary btn-big">Girar roleta</button>
+            <div class="result-box" id="roleta-result">
+              <span class="result-placeholder">Aguardando sorteio…</span>
             </div>
           </div>
         </div>
