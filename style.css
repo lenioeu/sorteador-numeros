@@ -199,9 +199,23 @@ h3 {
   word-break: break-word;
 }
 
-.result-value.spinning {
+.digits {
+  display: inline-flex;
+  gap: 10px;
+}
+.digit {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 3rem;
+  font-weight: 600;
   color: var(--sage);
-  opacity: 0.8;
+  opacity: 0.75;
+  min-width: 0.85em;
+  text-align: center;
+  transition: color .2s, opacity .2s;
+}
+.digit.locked {
+  color: var(--maroon);
+  opacity: 1;
 }
 
 /* Roleta layout */

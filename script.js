@@ -36,23 +36,47 @@ const ALL_NUMBERS = (() => {
 let drawnNumbers = new Set();
 let classicSpinning = false;
 
-function spinClassicSuspense(pool, chosen, onDone) {
-  let delay = 40;
+function spinClassicSuspense(chosen, onDone) {
+  const TOTAL_DURATION = 7000;
+  const UNITS_LOCK_AT = TOTAL_DURATION / 3;
+  const TENS_LOCK_AT = (TOTAL_DURATION / 3) * 2;
 
-  function tick() {
-    const displayVal = pool[Math.floor(Math.random() * pool.length)];
-    classicResult.innerHTML = `<span class="result-value spinning">${displayVal}</span>`;
-    delay *= 1.12;
-    if (delay < 320) {
-      setTimeout(tick, delay);
-    } else {
-      setTimeout(() => {
-        classicResult.innerHTML = `<span class="result-value">${chosen}</span>`;
-        onDone();
-      }, 350);
-    }
+  const finalHundreds = Math.floor(chosen / 100);
+  const finalTens = Math.floor((chosen % 100) / 10);
+  const finalUnits = chosen % 10;
+
+  const locked = { hundreds: false, tens: false, units: false };
+  const startTime = performance.now();
+  const randomDigit = () => Math.floor(Math.random() * 10);
+
+  function render(digits) {
+    classicResult.innerHTML = `
+      <span class="digits">
+        <span class="digit${locked.hundreds ? ' locked' : ''}">${digits.hundreds}</span>
+        <span class="digit${locked.tens ? ' locked' : ''}">${digits.tens}</span>
+        <span class="digit${locked.units ? ' locked' : ''}">${digits.units}</span>
+      </span>`;
   }
-  tick();
+
+  const intervalId = setInterval(() => {
+    const elapsed = performance.now() - startTime;
+
+    if (elapsed >= UNITS_LOCK_AT) locked.units = true;
+    if (elapsed >= TENS_LOCK_AT) locked.tens = true;
+
+    if (elapsed >= TOTAL_DURATION) {
+      clearInterval(intervalId);
+      classicResult.innerHTML = `<span class="result-value">${chosen}</span>`;
+      onDone();
+      return;
+    }
+
+    render({
+      hundreds: locked.hundreds ? finalHundreds : randomDigit(),
+      tens: locked.tens ? finalTens : randomDigit(),
+      units: locked.units ? finalUnits : randomDigit()
+    });
+  }, 70);
 }
 
 drawNumberBtn.addEventListener('click', () => {
@@ -69,7 +93,7 @@ drawNumberBtn.addEventListener('click', () => {
   classicSpinning = true;
   drawNumberBtn.disabled = true;
 
-  spinClassicSuspense(pool, chosen, () => {
+  spinClassicSuspense(chosen, () => {
     drawnNumbers.add(chosen);
     classicSpinning = false;
     drawNumberBtn.disabled = false;
