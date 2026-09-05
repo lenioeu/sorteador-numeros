@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sorteador</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>🎲 Sorteador</h1>
+      <nav class="tabs" role="tablist">
+        <button class="tab-btn active" data-tab="classico" role="tab" aria-selected="true">Clássico</button>
+        <button class="tab-btn" data-tab="roleta" role="tab" aria-selected="false">Roleta</button>
+      </nav>
+    </header>
+
+    <main>
+      <!-- CLÁSSICO -->
+      <section id="classico" class="tab-panel active">
+        <div class="card">
+          <h2>Intervalos</h2>
+          <div id="intervals-list" class="intervals-list"></div>
+          <button id="add-interval" class="btn btn-secondary">+ Adicionar intervalo</button>
+
+          <label class="toggle-row">
+            <input type="checkbox" id="allow-repeat">
+            <span>Permitir repetição de números já sorteados</span>
+          </label>
+
+          <button id="draw-number" class="btn btn-primary btn-big">Sortear número</button>
+
+          <div class="result-box" id="classic-result">
+            <span class="result-placeholder">Aguardando sorteio…</span>
+          </div>
+
+          <div class="history-box">
+            <div class="history-header">
+              <h3>Histórico</h3>
+              <button id="reset-classic" class="btn btn-ghost">Limpar</button>
+            </div>
+            <ul id="classic-history" class="history-list"></ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ROLETA -->
+      <section id="roleta" class="tab-panel">
+        <div class="card roleta-card">
+          <div class="roleta-layout">
+            <div class="wheel-area">
+              <div class="wheel-wrapper">
+                <div class="pointer"></div>
+                <canvas id="wheel-canvas" width="420" height="420"></canvas>
+              </div>
+              <button id="spin-btn" class="btn btn-primary btn-big">Girar roleta</button>
+              <div class="result-box" id="roleta-result">
+                <span class="result-placeholder">Aguardando sorteio…</span>
+              </div>
+            </div>
+
+            <div class="options-area">
+              <h2>Opções</h2>
+              <div class="add-option-row">
+                <input type="text" id="option-input" placeholder="Digite um nome e Enter">
+                <button id="add-option" class="btn btn-secondary">Adicionar</button>
+              </div>
+              <textarea id="bulk-input" placeholder="Ou cole vários nomes aqui, um por linha…" rows="3"></textarea>
+              <button id="add-bulk" class="btn btn-secondary">Adicionar lista</button>
+
+              <ul id="options-list" class="options-list"></ul>
+
+              <label class="toggle-row">
+                <input type="checkbox" id="eliminate-toggle">
+                <span>Remover da roda após sortear (eliminatória)</span>
+              </label>
+
+              <div class="history-box">
+                <div class="history-header">
+                  <h3>Histórico</h3>
+                  <button id="reset-roleta" class="btn btn-ghost">Limpar tudo</button>
+                </div>
+                <ul id="roleta-history" class="history-list"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+<script src="script.js"></script>
+</body>
+</html>
