@@ -47,7 +47,14 @@ function addIntervalRow(min = 1, max = 100) {
 }
 
 addIntervalBtn.addEventListener('click', () => addIntervalRow());
-addIntervalRow(); // linha inicial
+
+const DEFAULT_INTERVALS = [
+  [108, 177],
+  [181, 219],
+  [280, 299],
+  [220, 259]
+];
+DEFAULT_INTERVALS.forEach(([min, max]) => addIntervalRow(min, max));
 
 function getAllNumbersFromIntervals() {
   const numbers = new Set();
